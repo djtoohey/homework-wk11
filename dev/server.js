@@ -30,7 +30,7 @@ app.get("/api/notes", function (req, res) {
 app.post("/api/notes", function (req, res) {
     // gets new note from user
     let newNote = req.body;
-
+    newNote.id = notes.length + 1;
     // pushes to notes array
     notes.push(newNote);
 
@@ -40,7 +40,7 @@ app.post("/api/notes", function (req, res) {
 
 // Route that deletes the notes with the id the user requested
 app.delete("/api/notes/:id", function (req, res) {
-
+    let chosenNote = req.params.id;
     // for loop to remove note from notes array
     for (let i = 0; i < notes.length; i++) {
         const note = notes[i];
@@ -60,6 +60,7 @@ app.delete("/api/notes/:id", function (req, res) {
 
     // return the new array to db.json
     fs.writeFileSync("./db/db.json", JSON.stringify(notes));
+
 });
 
 // Route that sends the user to the Notes Page
