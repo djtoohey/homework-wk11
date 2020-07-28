@@ -64,12 +64,20 @@ app.delete("/api/notes/:id", function (req, res) {
 
 // Route that sends the user to the Notes Page
 app.get("/notes", function (req, res) {
-    res.sendFile(path.join(__dirname, "public/notes.html"));
+    res.sendFile(path.join(__dirname, "/public/notes.html"));
+});
+
+app.get('/css/styles.css', function (req, res) {
+    res.sendFile(path.join(__dirname + '/public/assets/css/styles.css'));
+});
+
+app.get('/js/index.js', function (req, res) {
+    res.sendFile(path.join(__dirname + '/public/assets/js/index.js'));
 });
 
 // Route that sends the user to the Home Page
 app.get("*", function (req, res) {
-    res.sendFile(path.join(__dirname, "public/index.html"));
+    res.sendFile(path.join(__dirname, "/public/index.html"));
 });
 
 
