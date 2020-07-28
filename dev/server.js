@@ -16,22 +16,58 @@ app.use(express.json());
 
 // Notes (DATA)
 // =============================================================
-let notes = JSON.parse(fs.readFileSync('./db/db.json', 'utf8'));
+let notes = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
 
 // Routes
 // =============================================================
 
-// Basic route that sends the user to the notesz
+// Route that gets data from notes for the user
 app.get("/api/notes", function (req, res) {
     return res.json(notes);
 });
 
-// Basic route that sends the user to the Notes Page
+// Route that posts data to the notes for the user
+app.post("/api/notes", function (req, res) {
+    // gets new note from user
+    let newNote = req.body;
+
+    // pushes to notes array
+    notes.push(newNote);
+
+    // return the new array to db.json
+    fs.writeFileSync("./db/db.json", JSON.stringify(notes));
+});
+
+// Route that deletes the notes with the id the user requested
+app.delete("/api/notes/:id", function (req, res) {
+
+    // for loop to remove note from notes array
+    for (let i = 0; i < notes.length; i++) {
+        const note = notes[i];
+
+        if (note.id == chosenNote) {
+            notes.splice(i, 1);
+
+        }
+    }
+
+    // for loop to rearrange each note id to still be in order
+    for (let i = 0; i < notes.length; i++) {
+        const note = notes[i];
+
+        note.id = i;
+    }
+
+    // return the new array to db.json
+    fs.writeFileSync("./db/db.json", JSON.stringify(notes));
+});
+
+// Route that sends the user to the Notes Page
 app.get("/notes", function (req, res) {
     res.sendFile(path.join(__dirname, "public/notes.html"));
 });
 
-// Basic route that sends the user to the Home Page
+// Route that sends the user to the Home Page
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "public/index.html"));
 });
@@ -40,5 +76,5 @@ app.get("*", function (req, res) {
 // Starts the server to begin listening
 // =============================================================
 app.listen(PORT, function () {
-    console.log("App listening on http://localhost:" + PORT + "/");
+    console.log(`App listening on http://localhost:${PORT}/`);
 });
