@@ -46,29 +46,20 @@ app.delete("/api/notes/:id", function (req, res) {
     // for loop to remove note from notes array
     for (let i = 1; i - 1 < notes.length; i++) {
         const note = notes[i - 1];
-        console.log("notes:", i - 1);
-        console.log("note", i)
-        console.log("array", notes)
-        console.log(note);
         if (note) {
 
             if (note.id == chosenNote) {
                 notes.splice(i - 1, 1);
-                console.log(notes)
 
             }
         }
-
     }
 
     // for loop to rearrange each note id to still be in order
     for (let i = 1; i < notes.length; i++) {
         const note = notes[i];
         if (note) {
-            console.log(note)
-            // note.id = i;
-
-
+            note.id = i;
         }
     }
 
